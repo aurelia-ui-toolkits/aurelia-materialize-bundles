@@ -1,0 +1,90 @@
+{
+  "name": "aurelia-fetch-client",
+  "version": "1.0.0-beta.1.2.1",
+  "description": "A simple client based on the Fetch standard.",
+  "keywords": [
+    "aurelia",
+    "http",
+    "ajax",
+    "fetch"
+  ],
+  "homepage": "http://aurelia.io",
+  "bugs": {
+    "url": "https://github.com/aurelia/fetch-client/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Rob Eisenberg",
+    "email": "rob@bluespire.com",
+    "url": "http://robeisenberg.com/"
+  },
+  "main": "aurelia-fetch-client",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/aurelia/fetch-client"
+  },
+  "scripts": {
+    "test": "gulp test",
+    "ci": "gulp ci"
+  },
+  "jspm": {
+    "registry": "npm",
+    "jspmPackage": true,
+    "main": "aurelia-fetch-client",
+    "format": "amd",
+    "directories": {
+      "dist": "dist/amd"
+    },
+    "devDependencies": {
+      "aurelia-polyfills": "^1.0.0-beta.1.1.1",
+      "babel": "^5.1.13",
+      "babel-runtime": "^5.1.13",
+      "core-js": "^2.0.3"
+    }
+  },
+  "devDependencies": {
+    "aurelia-polyfills": "^1.0.0-beta.1.1.1",
+    "babel": "^5.1.13",
+    "babel-runtime": "^5.1.13",
+    "core-js": "^2.0.3"
+  },
+  "aurelia": {
+    "documentation": {
+      "articles": []
+    }
+  },
+  "gitHead": "aba6813b5f09c39b4fe9a0ed8afdd9078f756283",
+  "_id": "aurelia-fetch-client@1.0.0-beta.1.2.1",
+  "_shasum": "b7a17fcba29c2640ade7d83e5d849dfbe25dfa64",
+  "_from": ".",
+  "_npmVersion": "3.3.12",
+  "_nodeVersion": "5.2.0",
+  "_npmUser": {
+    "name": "aureliaeffect",
+    "email": "info@durandal.io"
+  },
+  "dist": {
+    "shasum": "b7a17fcba29c2640ade7d83e5d849dfbe25dfa64",
+    "tarball": "https://registry.npmjs.org/aurelia-fetch-client/-/aurelia-fetch-client-1.0.0-beta.1.2.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "aureliaeffect",
+      "email": "info@durandal.io"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/aurelia-fetch-client-1.0.0-beta.1.2.1.tgz_1460125208684_0.03506676200777292"
+  },
+  "directories": {
+    "dist": "dist/amd"
+  },
+  "registry": "npm",
+  "jspmPackage": true,
+  "format": "amd",
+  "ignore": [
+    "node_modules"
+  ],
+  "dependencies": {}
+}
