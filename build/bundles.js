@@ -33,16 +33,17 @@ var bundle = [
   "aurelia-templating-binding",
   "aurelia-templating-resources",
   "aurelia-templating-router",
-  "aurelia-materialize-bridge/**/*.js",
-  "aurelia-materialize-bridge",
-  "aurelia-kendoui-bridge/**/*.html!text",
-  "github:Dogfalo/materialize@0.97.6"
+  "[aurelia-materialize-bridge/**/*.js]",
+  "[aurelia-materialize-bridge]"
 ];
 
 module.exports = {
   "bundles": {
     "bundles/bundle": {
       "includes": bundle,
+      "excludes": [
+        "materialize"
+      ],
       "options": {
         "inject": true,
         "minify": true

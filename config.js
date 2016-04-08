@@ -44,6 +44,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.11",
     "core-js": "npm:core-js@0.9.18",
     "jquery": "npm:jquery@2.1.4",
+    "materialize": "npm:materialize@1.0.0",
     "text": "github:systemjs/plugin-text@0.0.7",
     "github:Dogfalo/materialize@0.97.6": {
       "css": "github:systemjs/plugin-css@0.1.20",
@@ -288,6 +289,10 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
+    "npm:materialize@1.0.0": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0"
+    },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
     },
@@ -335,11 +340,6 @@ System.config({
   },
   bundles: {
     "bundles/bundle.js": [
-      "github:Dogfalo/materialize@0.97.6.js",
-      "github:Dogfalo/materialize@0.97.6/css/materialize.css!github:systemjs/plugin-css@0.1.20.js",
-      "github:Dogfalo/materialize@0.97.6/js/materialize.js",
-      "github:components/jquery@2.1.4.js",
-      "github:components/jquery@2.1.4/jquery.js",
       "github:systemjs/plugin-text@0.0.7.js",
       "github:systemjs/plugin-text@0.0.7/text.js",
       "npm:aurelia-animator-css@1.0.0-beta.1.2.0.js",
