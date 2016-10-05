@@ -32,7 +32,7 @@
       "aurelia-loader-default": "npm:aurelia-loader-default@^1.0.0-beta.1.2.0",
       "aurelia-logging": "npm:aurelia-logging@^1.0.0-beta.1.2.0",
       "aurelia-logging-console": "npm:aurelia-logging-console@^1.0.0-beta.1.2.0",
-      "aurelia-materialize-bridge": "npm:aurelia-materialize-bridge@^0.8.0",
+      "aurelia-materialize-bridge": "npm:aurelia-materialize-bridge@^0.17.1",
       "aurelia-metadata": "npm:aurelia-metadata@^1.0.0-beta.1.2.0",
       "aurelia-path": "npm:aurelia-path@^1.0.0-beta.1.2.1",
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0-beta.1.2.0",
