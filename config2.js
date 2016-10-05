@@ -10,9 +10,9 @@ System.config({
     "optional": []
   },
   paths: {
-    "github:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.17.1-2/jspm_packages/github/*",
-    "npm:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.17.1-2/jspm_packages/npm/*",
-    "bundles/bundle.js": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.17.1-2/bundles/bundle.js"
+    "github:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.17.1-3/jspm_packages/github/*",
+    "npm:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.17.1-3/jspm_packages/npm/*",
+    "bundles/bundle.js": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.17.1-3/bundles/bundle.js"
   },
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.1",
