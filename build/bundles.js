@@ -41,9 +41,6 @@ module.exports = {
   "bundles": {
     "bundles/bundle": {
       "includes": bundle,
-      "excludes": [
-        "materialize"
-      ],
       "options": {
         "inject": true,
         "minify": true

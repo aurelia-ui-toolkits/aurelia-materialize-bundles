@@ -43,7 +43,7 @@ System.config({
     "clean-css": "npm:clean-css@3.4.20",
     "core-js": "npm:core-js@0.9.18",
     "jquery": "npm:jquery@2.1.4",
-    "materialize": "npm:materialize@1.0.0",
+    "materialize": "npm:materialize-css@0.97.7",
     "text": "github:systemjs/plugin-text@0.0.7",
     "github:Dogfalo/materialize@0.97.7": {
       "css": "github:systemjs/plugin-css@0.1.30",
@@ -286,9 +286,9 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:materialize@1.0.0": {
-      "assert": "github:jspm/nodelibs-assert@0.1.0",
-      "util": "github:jspm/nodelibs-util@0.1.0"
+    "npm:materialize-css@0.97.7": {
+      "css": "github:systemjs/plugin-css@0.1.30",
+      "jquery": "github:components/jquery@3.1.1"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
