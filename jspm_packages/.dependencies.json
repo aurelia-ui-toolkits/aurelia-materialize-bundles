@@ -29,12 +29,6 @@
     "amdefine": "npm:amdefine",
     "process": "github:jspm/nodelibs-process@^0.1.0"
   },
-  "npm:amdefine@1.0.0": {
-    "path": "github:jspm/nodelibs-path@^0.1.0",
-    "process": "github:jspm/nodelibs-process@^0.1.0",
-    "module": "github:jspm/nodelibs-module@^0.1.0",
-    "fs": "github:jspm/nodelibs-fs@^0.1.0"
-  },
   "npm:commander@2.8.1": {
     "graceful-readlink": "npm:graceful-readlink",
     "events": "github:jspm/nodelibs-events@^0.1.1",
@@ -120,7 +114,6 @@
     "process": "github:jspm/nodelibs-process@^0.1.0"
   },
   "github:systemjs/plugin-text@0.0.7": {},
-  "npm:jquery@2.1.4": {},
   "github:systemjs/plugin-json@0.1.2": {},
   "npm:assert@1.4.1": {
     "util": "npm:util@0.10.3",
@@ -192,10 +185,6 @@
   "npm:aurelia-route-recognizer@1.1.0": {
     "aurelia-path": "npm:aurelia-path@^1.0.0"
   },
-  "github:Dogfalo/materialize@0.97.7": {
-    "jquery": "jspm:jquery",
-    "css": "jspm:css"
-  },
   "npm:clean-css@3.4.20": {
     "commander": "npm:commander@~2.8.0",
     "source-map": "npm:source-map@~0.4.0",
@@ -224,10 +213,6 @@
   },
   "npm:jquery@2.2.4": {},
   "github:components/jquery@3.1.1": {},
-  "npm:materialize-css@0.97.7": {
-    "jquery": "github:components/jquery",
-    "css": "github:systemjs/plugin-css"
-  },
   "npm:aurelia-logging@1.1.0": {},
   "npm:aurelia-bootstrapper@1.0.1": {
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@^1.0.0",
@@ -296,15 +281,27 @@
     "aurelia-task-queue": "npm:aurelia-task-queue@^1.0.0",
     "aurelia-templating": "npm:aurelia-templating@^1.0.0"
   },
-  "github:systemjs/plugin-css@0.1.31": {},
   "npm:aurelia-binding@1.0.9": {
     "aurelia-logging": "npm:aurelia-logging@^1.0.0",
     "aurelia-metadata": "npm:aurelia-metadata@^1.0.0",
     "aurelia-pal": "npm:aurelia-pal@^1.0.0",
     "aurelia-task-queue": "npm:aurelia-task-queue@^1.0.0"
   },
-  "npm:isarray@0.0.1": {},
-  "npm:aurelia-materialize-bridge@0.17.2": {
+  "npm:amdefine@1.0.1": {
+    "path": "github:jspm/nodelibs-path@^0.1.0",
+    "process": "github:jspm/nodelibs-process@^0.1.0",
+    "module": "github:jspm/nodelibs-module@^0.1.0",
+    "fs": "github:jspm/nodelibs-fs@^0.1.0"
+  },
+  "github:Dogfalo/materialize@0.97.8": {
+    "jquery": "jspm:jquery",
+    "css": "jspm:css"
+  },
+  "npm:materialize-css@0.97.8": {
+    "jquery": "github:components/jquery",
+    "css": "github:systemjs/plugin-css"
+  },
+  "npm:aurelia-materialize-bridge@0.17.3": {
     "aurelia-binding": "npm:aurelia-binding@^1.0.0-beta.1.1.1",
     "aurelia-dependency-injection": "npm:aurelia-dependency-injection@^1.0.0-beta.1.1.2",
     "aurelia-logging": "npm:aurelia-logging@^1.0.0-beta.1.1.1",
@@ -315,5 +312,7 @@
     "aurelia-templating": "npm:aurelia-templating@^1.0.0-beta.1.1.0",
     "jquery": "npm:jquery@^2.2.4",
     "materialize": "github:Dogfalo/materialize@^0.97.5"
-  }
+  },
+  "github:systemjs/plugin-css@0.1.32": {},
+  "github:components/jquery@2.2.4": {}
 }
