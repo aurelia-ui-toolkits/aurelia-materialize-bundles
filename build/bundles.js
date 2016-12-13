@@ -33,6 +33,7 @@ var bundle = [
   "aurelia-templating-binding",
   "aurelia-templating-resources",
   "aurelia-templating-router",
+  "aurelia-validation",
   "[aurelia-materialize-bridge/**/*.js]",
   "[aurelia-materialize-bridge]"
 ];
