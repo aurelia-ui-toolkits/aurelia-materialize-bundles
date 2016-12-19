@@ -10,15 +10,15 @@ System.config({
     "optional": []
   },
   paths: {
-    "github:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.20.5/jspm_packages/github/*",
-    "npm:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.20.5/jspm_packages/npm/*",
-    "bundles/bundle.js": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.20.5/bundles/bundle.js"
+    "github:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.20.6/jspm_packages/github/*",
+    "npm:*": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.20.6/jspm_packages/npm/*",
+    "bundles/bundle.js": "https://cdn.rawgit.com/aurelia-ui-toolkits/aurelia-materialize-bundles/0.20.6/bundles/bundle.js"
   },
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.1",
     "aurelia-binding": "npm:aurelia-binding@1.1.0",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.1",
-    "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+    "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
     "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.1",
     "aurelia-fetch-client": "npm:aurelia-fetch-client@1.1.0",
     "aurelia-framework": "npm:aurelia-framework@1.0.8",
@@ -29,7 +29,7 @@ System.config({
     "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0",
     "aurelia-logging": "npm:aurelia-logging@1.2.0",
     "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
-    "aurelia-materialize-bridge": "npm:aurelia-materialize-bridge@0.20.5",
+    "aurelia-materialize-bridge": "npm:aurelia-materialize-bridge@0.20.6",
     "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
     "aurelia-path": "npm:aurelia-path@1.1.1",
     "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.1.0",
@@ -42,7 +42,7 @@ System.config({
     "aurelia-validation": "npm:aurelia-validation@1.0.0-beta.1.0.0",
     "babel": "npm:babel-core@5.8.38",
     "babel-runtime": "npm:babel-runtime@5.8.38",
-    "clean-css": "npm:clean-css@3.4.22",
+    "clean-css": "npm:clean-css@3.4.23",
     "core-js": "npm:core-js@0.9.18",
     "jquery": "github:components/jquery@2.2.4",
     "materialize": "npm:materialize-css@0.97.8",
@@ -106,13 +106,13 @@ System.config({
     },
     "npm:aurelia-animator-css@1.0.1": {
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.4"
     },
     "npm:aurelia-binding@1.1.0": {
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0"
     },
     "npm:aurelia-bootstrapper@1.0.1": {
@@ -122,7 +122,7 @@ System.config({
       "aurelia-history-browser": "npm:aurelia-history-browser@1.0.0",
       "aurelia-loader-default": "npm:aurelia-loader-default@1.0.0",
       "aurelia-logging-console": "npm:aurelia-logging-console@1.0.0",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-pal-browser": "npm:aurelia-pal-browser@1.1.0",
       "aurelia-polyfills": "npm:aurelia-polyfills@1.1.1",
       "aurelia-router": "npm:aurelia-router@1.1.0",
@@ -131,36 +131,36 @@ System.config({
       "aurelia-templating-resources": "npm:aurelia-templating-resources@1.2.0",
       "aurelia-templating-router": "npm:aurelia-templating-router@1.0.1"
     },
-    "npm:aurelia-dependency-injection@1.2.0": {
+    "npm:aurelia-dependency-injection@1.2.1": {
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-event-aggregator@1.0.1": {
       "aurelia-logging": "npm:aurelia-logging@1.2.0"
     },
     "npm:aurelia-framework@1.0.8": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-path": "npm:aurelia-path@1.1.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.4"
     },
     "npm:aurelia-history-browser@1.0.0": {
       "aurelia-history": "npm:aurelia-history@1.0.0",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-http-client@1.0.3": {
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-path": "npm:aurelia-path@1.1.1"
     },
     "npm:aurelia-loader-default@1.0.0": {
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-loader@1.0.0": {
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
@@ -169,12 +169,12 @@ System.config({
     "npm:aurelia-logging-console@1.0.0": {
       "aurelia-logging": "npm:aurelia-logging@1.2.0"
     },
-    "npm:aurelia-materialize-bridge@0.20.5": {
+    "npm:aurelia-materialize-bridge@0.20.6": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-router": "npm:aurelia-router@1.1.0",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.4",
@@ -182,19 +182,19 @@ System.config({
       "materialize": "github:Dogfalo/materialize@0.97.8"
     },
     "npm:aurelia-metadata@1.0.2": {
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-pal-browser@1.1.0": {
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-polyfills@1.1.1": {
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-route-recognizer@1.1.0": {
       "aurelia-path": "npm:aurelia-path@1.1.1"
     },
     "npm:aurelia-router@1.1.0": {
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-event-aggregator": "npm:aurelia-event-aggregator@1.0.1",
       "aurelia-history": "npm:aurelia-history@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
@@ -202,7 +202,7 @@ System.config({
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@1.1.0"
     },
     "npm:aurelia-task-queue@1.1.0": {
-      "aurelia-pal": "npm:aurelia-pal@1.1.1"
+      "aurelia-pal": "npm:aurelia-pal@1.2.0"
     },
     "npm:aurelia-templating-binding@1.1.0": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
@@ -211,40 +211,40 @@ System.config({
     },
     "npm:aurelia-templating-resources@1.2.0": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-path": "npm:aurelia-path@1.1.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.4"
     },
     "npm:aurelia-templating-router@1.0.1": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-path": "npm:aurelia-path@1.1.1",
       "aurelia-router": "npm:aurelia-router@1.1.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.4"
     },
     "npm:aurelia-templating@1.1.4": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-loader": "npm:aurelia-loader@1.0.0",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
       "aurelia-metadata": "npm:aurelia-metadata@1.0.2",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-path": "npm:aurelia-path@1.1.1",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0"
     },
     "npm:aurelia-validation@1.0.0-beta.1.0.0": {
       "aurelia-binding": "npm:aurelia-binding@1.1.0",
-      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.0",
+      "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.2.1",
       "aurelia-logging": "npm:aurelia-logging@1.2.0",
-      "aurelia-pal": "npm:aurelia-pal@1.1.1",
+      "aurelia-pal": "npm:aurelia-pal@1.2.0",
       "aurelia-task-queue": "npm:aurelia-task-queue@1.1.0",
       "aurelia-templating": "npm:aurelia-templating@1.1.4"
     },
@@ -259,7 +259,7 @@ System.config({
       "isarray": "npm:isarray@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:clean-css@3.4.22": {
+    "npm:clean-css@3.4.23": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "commander": "npm:commander@2.8.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -363,8 +363,8 @@ System.config({
       "npm:aurelia-binding@1.1.0/aurelia-binding.js",
       "npm:aurelia-bootstrapper@1.0.1.js",
       "npm:aurelia-bootstrapper@1.0.1/aurelia-bootstrapper.js",
-      "npm:aurelia-dependency-injection@1.2.0.js",
-      "npm:aurelia-dependency-injection@1.2.0/aurelia-dependency-injection.js",
+      "npm:aurelia-dependency-injection@1.2.1.js",
+      "npm:aurelia-dependency-injection@1.2.1/aurelia-dependency-injection.js",
       "npm:aurelia-event-aggregator@1.0.1.js",
       "npm:aurelia-event-aggregator@1.0.1/aurelia-event-aggregator.js",
       "npm:aurelia-fetch-client@1.1.0.js",
@@ -385,78 +385,78 @@ System.config({
       "npm:aurelia-logging-console@1.0.0/aurelia-logging-console.js",
       "npm:aurelia-logging@1.2.0.js",
       "npm:aurelia-logging@1.2.0/aurelia-logging.js",
-      "npm:aurelia-materialize-bridge@0.20.5.js",
-      "npm:aurelia-materialize-bridge@0.20.5/autocomplete/autocomplete.js",
-      "npm:aurelia-materialize-bridge@0.20.5/badge/badge.js",
-      "npm:aurelia-materialize-bridge@0.20.5/box/box.js",
-      "npm:aurelia-materialize-bridge@0.20.5/breadcrumbs/breadcrumbs.js",
-      "npm:aurelia-materialize-bridge@0.20.5/breadcrumbs/instructionFilter.js",
-      "npm:aurelia-materialize-bridge@0.20.5/button/button.js",
-      "npm:aurelia-materialize-bridge@0.20.5/card/card.js",
-      "npm:aurelia-materialize-bridge@0.20.5/carousel/carousel-item.js",
-      "npm:aurelia-materialize-bridge@0.20.5/carousel/carousel.js",
-      "npm:aurelia-materialize-bridge@0.20.5/char-counter/char-counter.js",
-      "npm:aurelia-materialize-bridge@0.20.5/checkbox/checkbox.js",
-      "npm:aurelia-materialize-bridge@0.20.5/chip/chip.js",
-      "npm:aurelia-materialize-bridge@0.20.5/chip/chips.js",
-      "npm:aurelia-materialize-bridge@0.20.5/click-counter.js",
-      "npm:aurelia-materialize-bridge@0.20.5/collapsible/collapsible.js",
-      "npm:aurelia-materialize-bridge@0.20.5/collection/collection-header.js",
-      "npm:aurelia-materialize-bridge@0.20.5/collection/collection-item.js",
-      "npm:aurelia-materialize-bridge@0.20.5/collection/collection.js",
-      "npm:aurelia-materialize-bridge@0.20.5/collection/md-collection-selector.js",
-      "npm:aurelia-materialize-bridge@0.20.5/colors/colorValueConverters.js",
-      "npm:aurelia-materialize-bridge@0.20.5/colors/md-colors.js",
-      "npm:aurelia-materialize-bridge@0.20.5/common/attributeManager.js",
-      "npm:aurelia-materialize-bridge@0.20.5/common/attributes.js",
-      "npm:aurelia-materialize-bridge@0.20.5/common/constants.js",
-      "npm:aurelia-materialize-bridge@0.20.5/common/events.js",
-      "npm:aurelia-materialize-bridge@0.20.5/common/polyfills.js",
-      "npm:aurelia-materialize-bridge@0.20.5/config-builder.js",
-      "npm:aurelia-materialize-bridge@0.20.5/datepicker/datepicker-default-parser.js",
-      "npm:aurelia-materialize-bridge@0.20.5/datepicker/datepicker.js",
-      "npm:aurelia-materialize-bridge@0.20.5/dropdown/dropdown-element.js",
-      "npm:aurelia-materialize-bridge@0.20.5/dropdown/dropdown-fix.js",
-      "npm:aurelia-materialize-bridge@0.20.5/dropdown/dropdown.js",
-      "npm:aurelia-materialize-bridge@0.20.5/exports.js",
-      "npm:aurelia-materialize-bridge@0.20.5/fab/fab.js",
-      "npm:aurelia-materialize-bridge@0.20.5/file/file.js",
-      "npm:aurelia-materialize-bridge@0.20.5/footer/footer.js",
-      "npm:aurelia-materialize-bridge@0.20.5/index.js",
-      "npm:aurelia-materialize-bridge@0.20.5/input/input-prefix.js",
-      "npm:aurelia-materialize-bridge@0.20.5/input/input-update-service.js",
-      "npm:aurelia-materialize-bridge@0.20.5/input/input.js",
-      "npm:aurelia-materialize-bridge@0.20.5/modal/modal-trigger.js",
-      "npm:aurelia-materialize-bridge@0.20.5/modal/modal.js",
-      "npm:aurelia-materialize-bridge@0.20.5/navbar/navbar.js",
-      "npm:aurelia-materialize-bridge@0.20.5/pagination/pagination.js",
-      "npm:aurelia-materialize-bridge@0.20.5/parallax/parallax.js",
-      "npm:aurelia-materialize-bridge@0.20.5/progress/progress.js",
-      "npm:aurelia-materialize-bridge@0.20.5/pushpin/pushpin.js",
-      "npm:aurelia-materialize-bridge@0.20.5/radio/radio.js",
-      "npm:aurelia-materialize-bridge@0.20.5/range/range.js",
-      "npm:aurelia-materialize-bridge@0.20.5/scrollfire/scrollfire-patch.js",
-      "npm:aurelia-materialize-bridge@0.20.5/scrollfire/scrollfire-target.js",
-      "npm:aurelia-materialize-bridge@0.20.5/scrollfire/scrollfire.js",
-      "npm:aurelia-materialize-bridge@0.20.5/scrollspy/scrollspy.js",
-      "npm:aurelia-materialize-bridge@0.20.5/select/select.js",
-      "npm:aurelia-materialize-bridge@0.20.5/sidenav/sidenav-collapse.js",
-      "npm:aurelia-materialize-bridge@0.20.5/sidenav/sidenav.js",
-      "npm:aurelia-materialize-bridge@0.20.5/slider/slider.js",
-      "npm:aurelia-materialize-bridge@0.20.5/switch/switch.js",
-      "npm:aurelia-materialize-bridge@0.20.5/tabs/tabs.js",
-      "npm:aurelia-materialize-bridge@0.20.5/toast/toastService.js",
-      "npm:aurelia-materialize-bridge@0.20.5/tooltip/tooltip.js",
-      "npm:aurelia-materialize-bridge@0.20.5/transitions/fadein-image.js",
-      "npm:aurelia-materialize-bridge@0.20.5/transitions/staggered-list.js",
-      "npm:aurelia-materialize-bridge@0.20.5/validation/validationRenderer.js",
-      "npm:aurelia-materialize-bridge@0.20.5/waves/waves.js",
+      "npm:aurelia-materialize-bridge@0.20.6.js",
+      "npm:aurelia-materialize-bridge@0.20.6/autocomplete/autocomplete.js",
+      "npm:aurelia-materialize-bridge@0.20.6/badge/badge.js",
+      "npm:aurelia-materialize-bridge@0.20.6/box/box.js",
+      "npm:aurelia-materialize-bridge@0.20.6/breadcrumbs/breadcrumbs.js",
+      "npm:aurelia-materialize-bridge@0.20.6/breadcrumbs/instructionFilter.js",
+      "npm:aurelia-materialize-bridge@0.20.6/button/button.js",
+      "npm:aurelia-materialize-bridge@0.20.6/card/card.js",
+      "npm:aurelia-materialize-bridge@0.20.6/carousel/carousel-item.js",
+      "npm:aurelia-materialize-bridge@0.20.6/carousel/carousel.js",
+      "npm:aurelia-materialize-bridge@0.20.6/char-counter/char-counter.js",
+      "npm:aurelia-materialize-bridge@0.20.6/checkbox/checkbox.js",
+      "npm:aurelia-materialize-bridge@0.20.6/chip/chip.js",
+      "npm:aurelia-materialize-bridge@0.20.6/chip/chips.js",
+      "npm:aurelia-materialize-bridge@0.20.6/click-counter.js",
+      "npm:aurelia-materialize-bridge@0.20.6/collapsible/collapsible.js",
+      "npm:aurelia-materialize-bridge@0.20.6/collection/collection-header.js",
+      "npm:aurelia-materialize-bridge@0.20.6/collection/collection-item.js",
+      "npm:aurelia-materialize-bridge@0.20.6/collection/collection.js",
+      "npm:aurelia-materialize-bridge@0.20.6/collection/md-collection-selector.js",
+      "npm:aurelia-materialize-bridge@0.20.6/colors/colorValueConverters.js",
+      "npm:aurelia-materialize-bridge@0.20.6/colors/md-colors.js",
+      "npm:aurelia-materialize-bridge@0.20.6/common/attributeManager.js",
+      "npm:aurelia-materialize-bridge@0.20.6/common/attributes.js",
+      "npm:aurelia-materialize-bridge@0.20.6/common/constants.js",
+      "npm:aurelia-materialize-bridge@0.20.6/common/events.js",
+      "npm:aurelia-materialize-bridge@0.20.6/common/polyfills.js",
+      "npm:aurelia-materialize-bridge@0.20.6/config-builder.js",
+      "npm:aurelia-materialize-bridge@0.20.6/datepicker/datepicker-default-parser.js",
+      "npm:aurelia-materialize-bridge@0.20.6/datepicker/datepicker.js",
+      "npm:aurelia-materialize-bridge@0.20.6/dropdown/dropdown-element.js",
+      "npm:aurelia-materialize-bridge@0.20.6/dropdown/dropdown-fix.js",
+      "npm:aurelia-materialize-bridge@0.20.6/dropdown/dropdown.js",
+      "npm:aurelia-materialize-bridge@0.20.6/exports.js",
+      "npm:aurelia-materialize-bridge@0.20.6/fab/fab.js",
+      "npm:aurelia-materialize-bridge@0.20.6/file/file.js",
+      "npm:aurelia-materialize-bridge@0.20.6/footer/footer.js",
+      "npm:aurelia-materialize-bridge@0.20.6/index.js",
+      "npm:aurelia-materialize-bridge@0.20.6/input/input-prefix.js",
+      "npm:aurelia-materialize-bridge@0.20.6/input/input-update-service.js",
+      "npm:aurelia-materialize-bridge@0.20.6/input/input.js",
+      "npm:aurelia-materialize-bridge@0.20.6/modal/modal-trigger.js",
+      "npm:aurelia-materialize-bridge@0.20.6/modal/modal.js",
+      "npm:aurelia-materialize-bridge@0.20.6/navbar/navbar.js",
+      "npm:aurelia-materialize-bridge@0.20.6/pagination/pagination.js",
+      "npm:aurelia-materialize-bridge@0.20.6/parallax/parallax.js",
+      "npm:aurelia-materialize-bridge@0.20.6/progress/progress.js",
+      "npm:aurelia-materialize-bridge@0.20.6/pushpin/pushpin.js",
+      "npm:aurelia-materialize-bridge@0.20.6/radio/radio.js",
+      "npm:aurelia-materialize-bridge@0.20.6/range/range.js",
+      "npm:aurelia-materialize-bridge@0.20.6/scrollfire/scrollfire-patch.js",
+      "npm:aurelia-materialize-bridge@0.20.6/scrollfire/scrollfire-target.js",
+      "npm:aurelia-materialize-bridge@0.20.6/scrollfire/scrollfire.js",
+      "npm:aurelia-materialize-bridge@0.20.6/scrollspy/scrollspy.js",
+      "npm:aurelia-materialize-bridge@0.20.6/select/select.js",
+      "npm:aurelia-materialize-bridge@0.20.6/sidenav/sidenav-collapse.js",
+      "npm:aurelia-materialize-bridge@0.20.6/sidenav/sidenav.js",
+      "npm:aurelia-materialize-bridge@0.20.6/slider/slider.js",
+      "npm:aurelia-materialize-bridge@0.20.6/switch/switch.js",
+      "npm:aurelia-materialize-bridge@0.20.6/tabs/tabs.js",
+      "npm:aurelia-materialize-bridge@0.20.6/toast/toastService.js",
+      "npm:aurelia-materialize-bridge@0.20.6/tooltip/tooltip.js",
+      "npm:aurelia-materialize-bridge@0.20.6/transitions/fadein-image.js",
+      "npm:aurelia-materialize-bridge@0.20.6/transitions/staggered-list.js",
+      "npm:aurelia-materialize-bridge@0.20.6/validation/validationRenderer.js",
+      "npm:aurelia-materialize-bridge@0.20.6/waves/waves.js",
       "npm:aurelia-metadata@1.0.2.js",
       "npm:aurelia-metadata@1.0.2/aurelia-metadata.js",
       "npm:aurelia-pal-browser@1.1.0.js",
       "npm:aurelia-pal-browser@1.1.0/aurelia-pal-browser.js",
-      "npm:aurelia-pal@1.1.1.js",
-      "npm:aurelia-pal@1.1.1/aurelia-pal.js",
+      "npm:aurelia-pal@1.2.0.js",
+      "npm:aurelia-pal@1.2.0/aurelia-pal.js",
       "npm:aurelia-path@1.1.1.js",
       "npm:aurelia-path@1.1.1/aurelia-path.js",
       "npm:aurelia-polyfills@1.1.1.js",
