@@ -1,1 +1,0 @@
-module.exports = require("npm:materialize-css@0.97.8/dist/js/materialize");

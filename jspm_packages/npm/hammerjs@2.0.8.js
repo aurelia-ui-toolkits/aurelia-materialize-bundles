@@ -1,0 +1,1 @@
+module.exports = require("npm:hammerjs@2.0.8/hammer.js");
