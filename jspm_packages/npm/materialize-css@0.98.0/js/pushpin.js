@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 (function ($) {
   $.fn.pushpin = function (options) {
     // Defaults

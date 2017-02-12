@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe("Autocomplete Plugin", function () {
   beforeEach(function() {
     loadFixtures('autocomplete/autocompleteFixture.html');

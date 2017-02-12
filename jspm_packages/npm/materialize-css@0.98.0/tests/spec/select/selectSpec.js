@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe("Select Plugin", function () {
   beforeEach(function() {
     loadFixtures('select/selectFixture.html');

@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe( 'Materialbox:', function() {
   var transformMaterialbox;
 

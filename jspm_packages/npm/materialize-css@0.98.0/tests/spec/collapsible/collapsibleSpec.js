@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe( "Collapsible Plugin", function () {
   var collapsible, accordion;
 

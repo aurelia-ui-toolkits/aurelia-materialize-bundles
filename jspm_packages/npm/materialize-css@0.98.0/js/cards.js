@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 (function ($) {
   $(document).ready(function() {
 

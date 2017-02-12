@@ -1,5 +1,7 @@
 /* */ 
-"format cjs";
+"format global";
+"deps jquery";
+"deps ../css/materialize.css!";
 //@prepros-append "jquery.easing.1.3.js"
 //@prepros-append "velocity.min.js"
 //@prepros-append "hammer.min.js";

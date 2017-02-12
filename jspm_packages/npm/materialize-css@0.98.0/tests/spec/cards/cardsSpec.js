@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe( "Cards", function () {
   var reveal;
 

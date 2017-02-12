@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe( 'Toasts:', function() {
   var toastOutDuration = 375;
   var toastInDuration = 300;

@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 Materialize.toast = function (message, displayLength, className, completeCallback) {
   className = className || "";
 

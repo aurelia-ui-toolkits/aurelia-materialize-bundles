@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 (function ($) {
     $.fn.tooltip = function (options) {
       var timeout = null,

@@ -1,5 +1,5 @@
 /* */ 
-"format cjs";
+"format global";
 /*!
  * pickadate.js v3.5.0, 2014/04/13
  * By Amsul, http://amsul.ca

@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe( 'Tooltip:', function() {
   var tooltippedBtn, tooltip;
 

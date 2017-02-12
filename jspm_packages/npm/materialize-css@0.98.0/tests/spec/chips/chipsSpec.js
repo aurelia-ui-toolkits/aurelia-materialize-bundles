@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe("Chips Plugin", function () {
 
   beforeEach(function() {

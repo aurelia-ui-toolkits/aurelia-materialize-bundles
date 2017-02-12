@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe('ScrollFire Plugin', function() {
   var options, testElement;
 

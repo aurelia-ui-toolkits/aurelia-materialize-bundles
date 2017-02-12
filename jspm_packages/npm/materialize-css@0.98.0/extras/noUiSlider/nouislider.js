@@ -1,5 +1,5 @@
 /* */ 
-"format cjs";
+"format global";
 /*!
  * Materialize v0.98.0 (http://materializecss.com)
  * Copyright 2014-2015 Materialize

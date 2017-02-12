@@ -1,5 +1,3 @@
-/* */ 
-"format cjs";
 // Custom Easing
 jQuery.extend( jQuery.easing,
 {

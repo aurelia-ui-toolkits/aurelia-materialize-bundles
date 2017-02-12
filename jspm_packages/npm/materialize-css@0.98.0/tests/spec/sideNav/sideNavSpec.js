@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe("SideNav Plugin", function () {
   beforeEach(function() {
     loadFixtures('sideNav/sideNavFixture.html');

@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 describe("Dropdown Plugin", function () {
   beforeEach(function() {
     loadFixtures('dropdown/dropdownFixture.html');

@@ -1,3 +1,5 @@
+/* */ 
+"format global";
 // Check for jQuery.
 if (typeof(jQuery) === 'undefined') {
   var jQuery;

@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 (function ($) {
   // Image transition function
   Materialize.fadeInImage = function(selectorOrEl) {

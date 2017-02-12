@@ -1,5 +1,3 @@
-/* */ 
-"format cjs";
 // package metadata file for Meteor.js
 
 Package.describe({

@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 (function ($) {
 
   // Add posibility to scroll to selected option

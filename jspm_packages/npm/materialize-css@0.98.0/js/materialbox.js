@@ -1,5 +1,4 @@
 /* */ 
-"format cjs";
 (function ($) {
 
   $.fn.materialbox = function () {
