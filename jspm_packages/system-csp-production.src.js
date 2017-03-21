@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.19.41
+ * SystemJS v0.19.31
  */
 (function() {
 function bootstrap() {// from https://gist.github.com/Yaffle/1088850
@@ -49,8 +49,9 @@ function URLPolyfill(url, baseURL) {
       protocol = base.protocol;
   }
 
-  // convert URLs to use / always
-  pathname = pathname.replace(/\\/g, '/');
+  // convert windows file URLs to use /
+  if (protocol == 'file:')
+    pathname = pathname.replace(/\\/g, '/');
 
   this.origin = host ? protocol + (protocol !== "" || host !== "" ? "//" : "") + host : "";
   this.href = protocol + (protocol && host || protocol == "file:" ? "//" : "") + (username !== "" ? username + (password !== "" ? ":" + password : "") + "@" : "") + host + pathname + search + hash;
@@ -105,7 +106,7 @@ global.URLPolyfill = URLPolyfill;
   function addToError(err, msg) {
     // parse the stack removing loader code lines for simplification
     if (!err.originalErr) {
-      var stack = ((err.message || err) + (err.stack ? '\n' + err.stack : '')).toString().split('\n');
+      var stack = (err.stack || err.message || err).toString().split('\n');
       var newStack = [];
       for (var i = 0; i < stack.length; i++) {
         if (typeof $__curScript == 'undefined' || stack[i].indexOf($__curScript.src) == -1)
@@ -121,8 +122,13 @@ global.URLPolyfill = URLPolyfill;
 
     var newErr = errArgs ? new Error(newMsg, err.fileName, err.lineNumber) : new Error(newMsg);
     
-    newErr.stack = newMsg;
-        
+    // Node needs stack adjustment for throw to show message
+    if (!isBrowser)
+      newErr.stack = newMsg;
+    // Clearing the stack stops unnecessary loader lines showing
+    else
+      newErr.stack = null;
+    
     // track the original error
     newErr.originalErr = err.originalErr || err;
 
@@ -477,6 +483,8 @@ function logloads(loads) {
       .then(function() {
         // console.log('LoadSucceeded ' + load.name);
         // snapshot(loader);
+
+        console.assert(load.status == 'loading', 'is loading');
 
         load.status = 'loaded';
 
@@ -1399,7 +1407,7 @@ function prepareBaseURL(loader) {
   if (this._loader.baseURL !== this.baseURL) {
     if (this.baseURL[this.baseURL.length - 1] != '/')
       this.baseURL += '/';
-
+    
     this._loader.baseURL = this.baseURL = new URL(this.baseURL, baseURIObj).href;
   }
 }
@@ -1425,10 +1433,6 @@ hookConstructor(function(constructor) {
 
     // support map and paths
     this.map = {};
-
-    // make the location of the system.js script accessible
-    if (typeof $__curScript != 'undefined')
-      this.scriptSrc = $__curScript.src;
 
     // global behaviour flags
     this.warnings = false;
@@ -1466,18 +1470,22 @@ if (typeof require != 'undefined' && typeof process != 'undefined' && !process.b
   a URL.
  */
 
-var parentModuleContext;
-function getNodeModule(name, baseURL) {
+function getNodeModule(name) {
   if (!isPlain(name))
     throw new Error('Node module ' + name + ' can\'t be loaded as it is not a package require.');
 
-  if (!parentModuleContext) {
-    var Module = this._nodeRequire('module');
-    var base = baseURL.substr(isWindows ? 8 : 7);
-    parentModuleContext = new Module(base);
-    parentModuleContext.paths = Module._nodeModulePaths(base);
+  var nodePath = this._nodeRequire('path');
+  // try to load from node_modules
+  var module;
+  try {
+    module = this._nodeRequire(nodePath.resolve(process.cwd(), 'node_modules', name));
   }
-  return parentModuleContext.require(name);
+  catch(e) {
+    // fall back to direct require (in theory this is core modules only, which should really be filtered)
+    if (e.code == 'MODULE_NOT_FOUND')
+      module = this._nodeRequire(name);
+  }
+  return module;
 }
 
 function coreResolve(name, parentName) {
@@ -1501,15 +1509,11 @@ function coreResolve(name, parentName) {
 
   if (this.has(name))
     return name;
-
   // dynamically load node-core modules when requiring `@node/fs` for example
   if (name.substr(0, 6) == '@node/') {
     if (!this._nodeRequire)
       throw new TypeError('Error loading ' + name + '. Can only load node core modules in Node.');
-    if (this.builder)
-      this.set(name, this.newModule({}));
-    else
-      this.set(name, this.newModule(getESModule(getNodeModule.call(this, name.substr(6), this.baseURL))));
+    this.set(name, this.newModule(getESModule(getNodeModule.call(this, name.substr(6)))));
     return name;
   }
 
@@ -1554,7 +1558,7 @@ hook('fetch', function() {
 
 /*
   __useDefault
-
+  
   When a module object looks like:
   newModule(
     __useDefault: true,
@@ -1677,9 +1681,9 @@ SystemJSLoader.prototype.getConfig = function(name) {
   var cfg = {};
   var loader = this;
   for (var p in loader) {
-    if (loader.hasOwnProperty && !loader.hasOwnProperty(p) || p in SystemJSLoader.prototype && p != 'transpiler')
+    if (loader.hasOwnProperty && !loader.hasOwnProperty(p) || p in SystemJSLoader.prototype)
       continue;
-    if (indexOf.call(['_loader', 'amdDefine', 'amdRequire', 'defined', 'failed', 'version', 'loads'], p) == -1)
+    if (indexOf.call(['_loader', 'amdDefine', 'amdRequire', 'defined', 'failed', 'version'], p) == -1)
       cfg[p] = loader[p];
   }
   cfg.production = envModule.production;
@@ -1744,7 +1748,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
     if (this.warnings) {
       for (var p in loader.paths)
         if (p.indexOf('*') != -1)
-          warn.call(loader, 'Paths configuration "' + p + '" -> "' + loader.paths[p] + '" uses wildcards which are being deprecated for just leaving a trailing "/" to indicate folder paths.');
+          warn.call(loader, 'Paths configuration "' + p + '" -> "' + loader.paths[p] + '" uses wildcards which are being deprecated for simpler trailing "/" folder paths.');
     }
   }
 
@@ -1757,11 +1761,14 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
     loader.pluginFirst = cfg.pluginFirst;
 
   if (cfg.map) {
+    var objMaps = '';
     for (var p in cfg.map) {
       var v = cfg.map[p];
 
       // object map backwards-compat into packages configuration
       if (typeof v !== 'string') {
+        objMaps += (objMaps.length ? ', ' : '') + '"' + p + '"';
+
         var defaultJSExtension = loader.defaultJSExtensions && p.substr(p.length - 3, 3) != '.js';
         var prop = loader.decanonicalize(p);
         if (defaultJSExtension && prop.substr(prop.length - 3, 3) == '.js')
@@ -1770,8 +1777,8 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
         // if a package main, revert it
         var pkgMatch = '';
         for (var pkg in loader.packages) {
-          if (prop.substr(0, pkg.length) == pkg
-              && (!prop[pkg.length] || prop[pkg.length] == '/')
+          if (prop.substr(0, pkg.length) == pkg 
+              && (!prop[pkg.length] || prop[pkg.length] == '/') 
               && pkgMatch.split('/').length < pkg.split('/').length)
             pkgMatch = pkg;
         }
@@ -1785,6 +1792,8 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
         loader.map[p] = v;
       }
     }
+    if (objMaps)
+      warn.call(loader, 'The map configuration for ' + objMaps + ' uses object submaps, which is deprecated in global map.\nUpdate this to use package contextual map with configs like SystemJS.config({ packages: { "' + p + '": { map: {...} } } }).');
   }
 
   if (cfg.packageConfigPaths) {
@@ -1830,7 +1839,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
   for (var c in cfg) {
     var v = cfg[c];
 
-    if (indexOf.call(['baseURL', 'map', 'packages', 'bundles', 'paths', 'warnings', 'packageConfigPaths',
+    if (indexOf.call(['baseURL', 'map', 'packages', 'bundles', 'paths', 'warnings', 'packageConfigPaths', 
           'loaderErrorStack', 'browserConfig', 'nodeConfig', 'devConfig', 'buildConfig', 'productionConfig'], c) != -1)
       continue;
 
@@ -1869,8 +1878,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
   envSet(loader, cfg, function(cfg) {
     loader.config(cfg, true);
   });
-};
-/*
+};/*
  * Package Configuration Extension
  *
  * Example:
@@ -2559,7 +2567,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
 
       // if nothing registered, then something went wrong
       if (!load.metadata.entry)
-        reject(new Error(load.address + ' did not call System.register or AMD define. If loading a global, ensure the meta format is set to global.'));
+        reject(new Error(load.address + ' did not call System.register or AMD define'));
 
       resolve('');
     });
@@ -2947,21 +2955,13 @@ function createEntry() {
         var importerModule = module.importers[i];
         if (!importerModule.locked) {
           var importerIndex = indexOf.call(importerModule.dependencies, module);
-          var setter = importerModule.setters[importerIndex];
-          if (setter)
-            setter(exports);
+          importerModule.setters[importerIndex](exports);
         }
       }
 
       module.locked = false;
       return value;
     }, { id: entry.name });
-
-    if (typeof declaration == 'function')
-      declaration = { setters: [], execute: declaration };
-
-    // allowing undefined declaration was a mistake! To be deprecated.
-    declaration = declaration || { setters: [], execute: function() {} };
     
     module.setters = declaration.setters;
     module.execute = declaration.execute;
@@ -3079,7 +3079,7 @@ function createEntry() {
       throw new Error('Module ' + name + ' not declared as a dependency of ' + entry.name);
     }, exports, module);
     
-    if (output !== undefined)
+    if (output)
       module.exports = output;
 
     // create the esModule object, which allows ES6 named imports of dynamics
@@ -3093,7 +3093,7 @@ function createEntry() {
       entry.esModule = loader.newModule(getESModule(exports));
     // just use the 'default' export
     else
-      entry.esModule = loader.newModule({ 'default': exports, __useDefault: true });
+      entry.esModule = loader.newModule({ 'default': exports });
   }
 
   /*
@@ -3319,7 +3319,7 @@ function getGlobalValue(exports) {
 
 hook('reduceRegister_', function(reduceRegister) {
   return function(load, register) {
-    if (register || (!load.metadata.exports && !(isWorker && load.metadata.format == 'global')))
+    if (register || !load.metadata.exports)
       return reduceRegister.call(this, load, register);
 
     load.metadata.format = 'global';
@@ -3711,7 +3711,7 @@ hookConstructor(function(constructor) {
           if (curMeta) {
             if (!curMeta.entry && !curMeta.bundle)
               curMeta.entry = entry;
-            else if (curMeta.entry && curMeta.entry.name && curMeta.entry.name != load.name)
+            else if (curMeta.entry && curMeta.entry.name)
               curMeta.entry = undefined;
 
             // note this is now a bundle
@@ -3796,13 +3796,13 @@ hookConstructor(function(constructor) {
   // if so, remove for backwards compat
   // this is strange and sucks, but will be deprecated
   function checkDefaultExtension(loader, arg) {
-    return loader.defaultJSExtensions && arg.substr(arg.length - 3, 3) != '.js';
+    return loader.defaultJSExtensions && arg.substr(arg.length - 3, 3) != '.js'; 
   }
 
   function createNormalizeSync(normalizeSync) {
     return function(name, parentName, isPlugin) {
       var loader = this;
-
+      
       var parsed = parsePlugin(loader, name);
       parentName = getParentName(this, parentName);
 
@@ -3815,7 +3815,7 @@ hookConstructor(function(constructor) {
       return combinePluginParts(loader, argumentName, pluginName, checkDefaultExtension(loader, parsed.argument));
     };
   }
-
+  
   hook('decanonicalize', createNormalizeSync);
   hook('normalizeSync', createNormalizeSync);
 
@@ -3935,7 +3935,7 @@ hookConstructor(function(constructor) {
               throw new Error('load.metadata.sourceMap must be set to an object.');
 
             var originalName = load.address.split('!')[0];
-
+            
             // force set the filename of the original file
             if (!sourceMap.file || sourceMap.file == load.address)
               sourceMap.file = originalName + '!transpiled';
@@ -3950,6 +3950,8 @@ hookConstructor(function(constructor) {
 
           if (typeof result == 'string')
             load.source = result;
+          else
+            warn.call(this, 'Plugin ' + load.metadata.loader + ' should return the source in translate, instead of setting load.source directly. This support will be deprecated.');
 
           return translate.apply(loader, args);
         });
@@ -3975,14 +3977,12 @@ hookConstructor(function(constructor) {
           if (calledInstantiate)
             return result;
 
-          if (result !== undefined) {
-            load.metadata.entry = createEntry();
-            load.metadata.entry.execute = function() {
-              return result;
-            }
-            load.metadata.entry.deps = load.metadata.deps;
-            load.metadata.format = 'defined';
+          load.metadata.entry = createEntry();
+          load.metadata.entry.execute = function() {
+            return result;
           }
+          load.metadata.entry.deps = load.metadata.deps;
+          load.metadata.format = 'defined';
           return instantiate.call(loader, load);
         });
       else
@@ -3990,8 +3990,7 @@ hookConstructor(function(constructor) {
     };
   });
 
-})();
-/*
+})();/*
  * Conditions Extension
  *
  *   Allows a condition module to alter the resolution of an import via syntax:
@@ -4480,7 +4479,7 @@ hook('fetch', function(fetch) {
 });System = new SystemJSLoader();
 
 __global.SystemJS = System;
-System.version = '0.19.41 CSP';
+System.version = '0.19.31 CSP';
   if (typeof module == 'object' && module.exports && typeof exports == 'object')
     module.exports = System;
 
@@ -4495,10 +4494,6 @@ var doPolyfill = typeof Promise === 'undefined';
 if (typeof document !== 'undefined') {
   var scripts = document.getElementsByTagName('script');
   $__curScript = scripts[scripts.length - 1];
-  if (document.currentScript && ($__curScript.defer || $__curScript.async))
-    $__curScript = document.currentScript;
-  if (!$__curScript.src)
-    $__curScript = undefined;
   if (doPolyfill) {
     var curPath = $__curScript.src;
     var basePath = curPath.substr(0, curPath.lastIndexOf('/') + 1);

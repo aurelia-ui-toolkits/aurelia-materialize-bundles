@@ -35,7 +35,11 @@ var bundle = [
   "aurelia-templating-router",
   "aurelia-validation",
   "[aurelia-materialize-bridge/**/*.js]",
-  "[aurelia-materialize-bridge]"
+  "aurelia-materialize-bridge/**/*.css!text",
+  "aurelia-materialize-bridge/**/*.html!text",
+  "[aurelia-materialize-bridge]",
+  "materialize",
+  "materialize/dist/css/materialize.css!text"
 ];
 
 module.exports = {
