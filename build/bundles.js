@@ -1,6 +1,7 @@
 var bundle = [
   "jquery",
   "text",
+  "css",
   "aurelia-framework",
   "aurelia-bootstrapper",
   "aurelia-router",
