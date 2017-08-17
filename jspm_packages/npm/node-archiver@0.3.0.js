@@ -1,1 +1,0 @@
-module.exports = require("npm:node-archiver@0.3.0/lib/archiver.js");

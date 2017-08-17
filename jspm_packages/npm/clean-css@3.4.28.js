@@ -1,0 +1,1 @@
+module.exports = require("npm:clean-css@3.4.28/index.js");

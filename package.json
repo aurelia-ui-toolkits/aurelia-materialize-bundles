@@ -38,7 +38,7 @@
       "aurelia-loader-default": "npm:aurelia-loader-default@^1.0.0-beta.1.2.0",
       "aurelia-logging": "npm:aurelia-logging@^1.0.0-beta.1.2.0",
       "aurelia-logging-console": "npm:aurelia-logging-console@^1.0.0-beta.1.2.0",
-      "aurelia-materialize-bridge": "npm:aurelia-materialize-bridge@^0.27.0",
+      "aurelia-materialize-bridge": "npm:aurelia-materialize-bridge@^0.30.0",
       "aurelia-metadata": "npm:aurelia-metadata@^1.0.0-beta.1.2.0",
       "aurelia-path": "npm:aurelia-path@^1.0.0-beta.1.2.1",
       "aurelia-route-recognizer": "npm:aurelia-route-recognizer@^1.0.0-beta.1.2.0",
@@ -51,7 +51,7 @@
       "aurelia-validation": "npm:aurelia-validation@^1.0.0-beta.1.0.0",
       "css": "github:systemjs/plugin-css@^0.1.33",
       "jquery": "github:components/jquery@2.2.4",
-      "materialize": "npm:materialize-css@^0.98.0",
+      "materialize": "npm:materialize-css@^0.100.1",
       "text": "github:systemjs/plugin-text@^0.0.7"
     },
     "devDependencies": {
@@ -61,7 +61,7 @@
       "core-js": "npm:core-js@^0.9.17"
     },
     "overrides": {
-      "npm:materialize-css@0.98.1": {
+      "npm:materialize-css@0.100.1": {
         "main": "dist/js/materialize",
         "format": "global",
         "shim": {
