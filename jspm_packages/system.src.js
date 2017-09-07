@@ -1,5 +1,5 @@
 /*
- * SystemJS v0.19.31
+ * SystemJS v0.19.46
  */
 (function() {
 function bootstrap() {// from https://gist.github.com/Yaffle/1088850
@@ -7,7 +7,7 @@ function bootstrap() {// from https://gist.github.com/Yaffle/1088850
 function URLPolyfill(url, baseURL) {
   if (typeof url != 'string')
     throw new TypeError('URL must be a string');
-  var m = String(url).replace(/^\s+|\s+$/g, "").match(/^([^:\/?#]+:)?(?:\/\/(?:([^:@\/?#]*)(?::([^:@\/?#]*))?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
+  var m = String(url).replace(/^\s+|\s+$/g, "").replace(/\\/g, '/').match(/^([^:\/?#]+:)?(?:\/\/(?:([^:@\/?#]*)(?::([^:@\/?#]*))?@)?(([^:\/?#]*)(?::(\d*))?))?([^?#]*)(\?[^#]*)?(#[\s\S]*)?/);
   if (!m)
     throw new RangeError('Invalid URL format');
   var protocol = m[1] || "";
@@ -49,9 +49,8 @@ function URLPolyfill(url, baseURL) {
       protocol = base.protocol;
   }
 
-  // convert windows file URLs to use /
-  if (protocol == 'file:')
-    pathname = pathname.replace(/\\/g, '/');
+  // convert URLs to use / always
+  pathname = pathname.replace(/\\/g, '/');
 
   this.origin = host ? protocol + (protocol !== "" || host !== "" ? "//" : "") + host : "";
   this.href = protocol + (protocol && host || protocol == "file:" ? "//" : "") + (username !== "" ? username + (password !== "" ? ":" + password : "") + "@" : "") + host + pathname + search + hash;
@@ -66,7 +65,8 @@ function URLPolyfill(url, baseURL) {
   this.hash = hash;
 }
 global.URLPolyfill = URLPolyfill;
-})(typeof self != 'undefined' ? self : global);(function(__global) {
+})(typeof self != 'undefined' ? self : global);
+(function(__global) {
 
   var isWorker = typeof window == 'undefined' && typeof self != 'undefined' && typeof importScripts != 'undefined';
   var isBrowser = typeof window != 'undefined' && typeof document != 'undefined';
@@ -84,7 +84,7 @@ global.URLPolyfill = URLPolyfill;
     }
     return -1;
   };
-  
+
   var defineProperty;
   (function () {
     try {
@@ -106,7 +106,7 @@ global.URLPolyfill = URLPolyfill;
   function addToError(err, msg) {
     // parse the stack removing loader code lines for simplification
     if (!err.originalErr) {
-      var stack = (err.stack || err.message || err).toString().split('\n');
+      var stack = ((err.message || err) + (err.stack ? '\n' + err.stack : '')).toString().split('\n');
       var newStack = [];
       for (var i = 0; i < stack.length; i++) {
         if (typeof $__curScript == 'undefined' || stack[i].indexOf($__curScript.src) == -1)
@@ -121,14 +121,9 @@ global.URLPolyfill = URLPolyfill;
       newMsg = newMsg.replace(isWindows ? /file:\/\/\//g : /file:\/\//g, '');
 
     var newErr = errArgs ? new Error(newMsg, err.fileName, err.lineNumber) : new Error(newMsg);
-    
-    // Node needs stack adjustment for throw to show message
-    if (!isBrowser)
-      newErr.stack = newMsg;
-    // Clearing the stack stops unnecessary loader lines showing
-    else
-      newErr.stack = null;
-    
+
+    newErr.stack = newMsg;
+
     // track the original error
     newErr.originalErr = err.originalErr || err;
 
@@ -437,7 +432,7 @@ function logloads(loads) {
       .then(function(instantiateResult) {
         if (instantiateResult === undefined)
           throw new TypeError('Declarative modules unsupported in the polyfill.');
-        
+
         if (typeof instantiateResult != 'object')
           throw new TypeError('Invalid instantiate return value');
 
@@ -484,8 +479,6 @@ function logloads(loads) {
         // console.log('LoadSucceeded ' + load.name);
         // snapshot(loader);
 
-        console.assert(load.status == 'loading', 'is loading');
-
         load.status = 'loaded';
 
         var linkSets = load.linkSets.concat([]);
@@ -502,8 +495,6 @@ function logloads(loads) {
       for (var i = 0, l = linkSets.length; i < l; i++) {
         linkSetFailed(linkSets[i], load, exc);
       }
-
-      console.assert(load.linkSets.length == 0, 'linkSets not removed');
     });
   }
 
@@ -556,7 +547,6 @@ function logloads(loads) {
         proceedToFetch(loader, load, Promise.resolve(stepState.moduleAddress));
 
       else {
-        console.assert(step == 'translate', 'translate step');
         load.address = stepState.moduleAddress;
         proceedToTranslate(loader, load, Promise.resolve(stepState.moduleSource));
       }
@@ -644,9 +634,6 @@ function logloads(loads) {
   function updateLinkSetOnLoad(linkSet, load) {
     // console.log('update linkset on load ' + load.name);
     // snapshot(linkSet.loader);
-
-    console.assert(load.status == 'loaded' || load.status == 'linked', 'loaded or linked');
-
     linkSet.loadingCount--;
 
     if (linkSet.loadingCount > 0)
@@ -679,8 +666,6 @@ function logloads(loads) {
     if (abrupt)
       return;
 
-    console.assert(linkSet.loads.length == 0, 'loads cleared');
-
     linkSet.resolve(startingLoad);
   }
 
@@ -689,7 +674,7 @@ function logloads(loads) {
     var loader = linkSet.loader;
     var requests;
 
-    checkError: 
+    checkError:
     if (load) {
       if (linkSet.loads[0].name == load.name) {
         exc = addToError(exc, 'Error loading ' + load.name);
@@ -723,7 +708,6 @@ function logloads(loads) {
         loader.loaderObj.failed.push(load);
 
       var linkIndex = indexOf.call(load.linkSets, linkSet);
-      console.assert(linkIndex != -1, 'link not present');
       load.linkSets.splice(linkIndex, 1);
       if (load.linkSets.length == 0) {
         var globalLoadsIndex = indexOf.call(linkSet.loader.loads, load);
@@ -755,7 +739,6 @@ function logloads(loads) {
     }
     // if not anonymous, add to the module table
     if (load.name) {
-      console.assert(!loader.modules[load.name] || loader.modules[load.name].module === load.module.module, 'load not in module table');
       loader.modules[load.name] = load.module;
     }
     var loadIndex = indexOf.call(loader.loads, load);
@@ -985,7 +968,6 @@ function logloads(loads) {
 })();
 
 var System;
-
   var fetchTextFromURL;
   if (typeof XMLHttpRequest != 'undefined') {
     fetchTextFromURL = function(url, authorization, fulfill, reject) {
@@ -1273,7 +1255,7 @@ function applyPaths(loader, name) {
     if (p.indexOf('*') === -1) {
       if (name == p)
         return paths[p];
-      
+
       // support trailing / in paths rules
       else if (name.substr(0, p.length - 1) == p.substr(0, p.length - 1) && (name.length < p.length || name[p.length - 1] == p[p.length - 1]) && (paths[p][paths[p].length - 1] == '/' || paths[p] == '')) {
         return paths[p].substr(0, paths[p].length - 1) + (name.length > p.length ? (paths[p] && '/' || '') + name.substr(p.length) : '');
@@ -1427,7 +1409,7 @@ function extendPkgConfig(pkgCfgA, pkgCfgB, pkgName, loader, warnInvalidPropertie
         loader.depCache[dNormalized] = (loader.depCache[dNormalized] || []).concat(pkgCfgB.depCache[d]);
       }
     }
-    else if (warnInvalidProperties && indexOf.call(['browserConfig', 'nodeConfig', 'devConfig', 'productionConfig'], prop) == -1 && 
+    else if (warnInvalidProperties && indexOf.call(['browserConfig', 'nodeConfig', 'devConfig', 'productionConfig'], prop) == -1 &&
         (!pkgCfgB.hasOwnProperty || pkgCfgB.hasOwnProperty(prop))) {
       warn.call(loader, '"' + prop + '" is not a valid package configuration option in package ' + pkgName);
     }
@@ -1449,7 +1431,7 @@ function setPkgConfig(loader, pkgName, cfg, prependConfig) {
     extendPkgConfig(pkg, prependConfig ? cfg : basePkg, pkgName, loader, prependConfig);
     extendPkgConfig(pkg, prependConfig ? basePkg : cfg, pkgName, loader, !prependConfig);
   }
-  
+
   // main object becomes main map
   if (typeof pkg.main == 'object') {
     pkg.map = pkg.map || {};
@@ -1465,13 +1447,39 @@ function warn(msg) {
   if (this.warnings && typeof console != 'undefined' && console.warn)
     console.warn(msg);
 }
+
+function createInstantiate (load, result) {
+  load.metadata.entry = createEntry();
+  load.metadata.entry.execute = function() {
+    return result;
+  }
+  load.metadata.entry.deps = [];
+  load.metadata.format = 'defined';
+}
 // we define a __exec for globally-scoped execution
 // used by module format implementations
 var __exec;
 
 (function() {
 
-  var hasBtoa = typeof btoa != 'undefined';
+  var hasBuffer = typeof Buffer != 'undefined';
+  try {
+    if (hasBuffer && new Buffer('a').toString('base64') != 'YQ==')
+      hasBuffer = false;
+  }
+  catch(e) {
+    hasBuffer = false;
+  }
+
+  var sourceMapPrefix = '\n//# sourceMappingURL=data:application/json;base64,';
+  function inlineSourceMap(sourceMapString) {
+    if (hasBuffer)
+      return sourceMapPrefix + new Buffer(sourceMapString).toString('base64');
+    else if (typeof btoa != 'undefined')
+      return sourceMapPrefix + btoa(unescape(encodeURIComponent(sourceMapString)));
+    else
+      return '';
+  }
 
   function getSource(load, wrap) {
     var lastLineIndex = load.source.lastIndexOf('\n');
@@ -1490,10 +1498,10 @@ var __exec;
 
     return (wrap ? '(function(System, SystemJS) {' : '') + load.source + (wrap ? '\n})(System, System);' : '')
         // adds the sourceURL comment if not already present
-        + (load.source.substr(lastLineIndex, 15) != '\n//# sourceURL=' 
+        + (load.source.substr(lastLineIndex, 15) != '\n//# sourceURL='
           ? '\n//# sourceURL=' + load.address + (sourceMap ? '!transpiled' : '') : '')
         // add sourceMappingURL if load.metadata.sourceMap is set
-        + (sourceMap && hasBtoa && '\n//# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(sourceMap))) || '');
+        + (sourceMap && inlineSourceMap(sourceMap) || '');
   }
 
   var curLoad;
@@ -1517,7 +1525,7 @@ var __exec;
     curLoad = load;
     if (callCounter++ == 0)
       curSystem = __global.System;
-    __global.System = __global.SystemJS = loader; 
+    __global.System = __global.SystemJS = loader;
   }
   function postExec() {
     if (--callCounter == 0)
@@ -1525,7 +1533,7 @@ var __exec;
     curLoad = undefined;
   }
 
-  var nwjs = typeof process != 'undefined' && process.versions && process.versions['node-webkit'];
+  var useVm;
   var vm;
   __exec = function(load) {
     if (!load.source)
@@ -1536,26 +1544,24 @@ var __exec;
       preExec(this, load);
       curLoad = load;
       // global scoped eval for node (avoids require scope leak)
-      if (this._nodeRequire && !nwjs) {
-        vm = vm || this._nodeRequire('vm');
+      if (!vm && this._nodeRequire) {
+        vm = this._nodeRequire('vm');
+        useVm = vm.runInThisContext("typeof System !== 'undefined' && System") === this;
+      }
+      if (useVm)
         vm.runInThisContext(getSource(load, true), { filename: load.address + (load.metadata.sourceMap ? '!transpiled' : '') });
-      }
-      else {
+      else
         (0, eval)(getSource(load, true));
-      }
       postExec();
     }
     catch(e) {
-      postExec(); 
+      postExec();
       throw addToError(e, 'Evaluating ' + load.address);
     }
   };
 
   var supportsScriptExec = false;
   if (isBrowser && typeof document != 'undefined' && document.getElementsByTagName) {
-    var scripts = document.getElementsByTagName('script');
-    $__curScript = scripts[scripts.length - 1];
-
     if (!(window.chrome && window.chrome.extension || navigator.userAgent.match(/^Node\.js/)))
       supportsScriptExec = true;
   }
@@ -1620,7 +1626,7 @@ function prepareBaseURL(loader) {
   if (this._loader.baseURL !== this.baseURL) {
     if (this.baseURL[this.baseURL.length - 1] != '/')
       this.baseURL += '/';
-    
+
     this._loader.baseURL = this.baseURL = new URL(this.baseURL, baseURIObj).href;
   }
 }
@@ -1646,6 +1652,10 @@ hookConstructor(function(constructor) {
 
     // support map and paths
     this.map = {};
+
+    // make the location of the system.js script accessible
+    if (typeof $__curScript != 'undefined')
+      this.scriptSrc = $__curScript.src;
 
     // global behaviour flags
     this.warnings = false;
@@ -1683,22 +1693,18 @@ if (typeof require != 'undefined' && typeof process != 'undefined' && !process.b
   a URL.
  */
 
-function getNodeModule(name) {
+var parentModuleContext;
+function getNodeModule(name, baseURL) {
   if (!isPlain(name))
     throw new Error('Node module ' + name + ' can\'t be loaded as it is not a package require.');
 
-  var nodePath = this._nodeRequire('path');
-  // try to load from node_modules
-  var module;
-  try {
-    module = this._nodeRequire(nodePath.resolve(process.cwd(), 'node_modules', name));
+  if (!parentModuleContext) {
+    var Module = this._nodeRequire('module');
+    var base = baseURL.substr(isWindows ? 8 : 7);
+    parentModuleContext = new Module(base);
+    parentModuleContext.paths = Module._nodeModulePaths(base);
   }
-  catch(e) {
-    // fall back to direct require (in theory this is core modules only, which should really be filtered)
-    if (e.code == 'MODULE_NOT_FOUND')
-      module = this._nodeRequire(name);
-  }
-  return module;
+  return parentModuleContext.require(name);
 }
 
 function coreResolve(name, parentName) {
@@ -1722,11 +1728,15 @@ function coreResolve(name, parentName) {
 
   if (this.has(name))
     return name;
+
   // dynamically load node-core modules when requiring `@node/fs` for example
   if (name.substr(0, 6) == '@node/') {
     if (!this._nodeRequire)
       throw new TypeError('Error loading ' + name + '. Can only load node core modules in Node.');
-    this.set(name, this.newModule(getESModule(getNodeModule.call(this, name.substr(6)))));
+    if (this.builder)
+      this.set(name, this.newModule({}));
+    else
+      this.set(name, this.newModule(getESModule(getNodeModule.call(this, name.substr(6), this.baseURL))));
     return name;
   }
 
@@ -1771,7 +1781,7 @@ hook('fetch', function() {
 
 /*
   __useDefault
-  
+
   When a module object looks like:
   newModule(
     __useDefault: true,
@@ -1894,9 +1904,9 @@ SystemJSLoader.prototype.getConfig = function(name) {
   var cfg = {};
   var loader = this;
   for (var p in loader) {
-    if (loader.hasOwnProperty && !loader.hasOwnProperty(p) || p in SystemJSLoader.prototype)
+    if (loader.hasOwnProperty && !loader.hasOwnProperty(p) || p in SystemJSLoader.prototype && p != 'transpiler')
       continue;
-    if (indexOf.call(['_loader', 'amdDefine', 'amdRequire', 'defined', 'failed', 'version'], p) == -1)
+    if (indexOf.call(['_loader', 'amdDefine', 'amdRequire', 'defined', 'failed', 'version', 'loads'], p) == -1)
       cfg[p] = loader[p];
   }
   cfg.production = envModule.production;
@@ -1961,7 +1971,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
     if (this.warnings) {
       for (var p in loader.paths)
         if (p.indexOf('*') != -1)
-          warn.call(loader, 'Paths configuration "' + p + '" -> "' + loader.paths[p] + '" uses wildcards which are being deprecated for simpler trailing "/" folder paths.');
+          warn.call(loader, 'Paths configuration "' + p + '" -> "' + loader.paths[p] + '" uses wildcards which are being deprecated for just leaving a trailing "/" to indicate folder paths.');
     }
   }
 
@@ -1974,14 +1984,11 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
     loader.pluginFirst = cfg.pluginFirst;
 
   if (cfg.map) {
-    var objMaps = '';
     for (var p in cfg.map) {
       var v = cfg.map[p];
 
       // object map backwards-compat into packages configuration
       if (typeof v !== 'string') {
-        objMaps += (objMaps.length ? ', ' : '') + '"' + p + '"';
-
         var defaultJSExtension = loader.defaultJSExtensions && p.substr(p.length - 3, 3) != '.js';
         var prop = loader.decanonicalize(p);
         if (defaultJSExtension && prop.substr(prop.length - 3, 3) == '.js')
@@ -1990,8 +1997,8 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
         // if a package main, revert it
         var pkgMatch = '';
         for (var pkg in loader.packages) {
-          if (prop.substr(0, pkg.length) == pkg 
-              && (!prop[pkg.length] || prop[pkg.length] == '/') 
+          if (prop.substr(0, pkg.length) == pkg
+              && (!prop[pkg.length] || prop[pkg.length] == '/')
               && pkgMatch.split('/').length < pkg.split('/').length)
             pkgMatch = pkg;
         }
@@ -2005,8 +2012,6 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
         loader.map[p] = v;
       }
     }
-    if (objMaps)
-      warn.call(loader, 'The map configuration for ' + objMaps + ' uses object submaps, which is deprecated in global map.\nUpdate this to use package contextual map with configs like SystemJS.config({ packages: { "' + p + '": { map: {...} } } }).');
   }
 
   if (cfg.packageConfigPaths) {
@@ -2052,7 +2057,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
   for (var c in cfg) {
     var v = cfg[c];
 
-    if (indexOf.call(['baseURL', 'map', 'packages', 'bundles', 'paths', 'warnings', 'packageConfigPaths', 
+    if (indexOf.call(['baseURL', 'map', 'packages', 'bundles', 'paths', 'warnings', 'packageConfigPaths',
           'loaderErrorStack', 'browserConfig', 'nodeConfig', 'devConfig', 'buildConfig', 'productionConfig'], c) != -1)
       continue;
 
@@ -2091,7 +2096,8 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
   envSet(loader, cfg, function(cfg) {
     loader.config(cfg, true);
   });
-};/*
+};
+/*
  * Package Configuration Extension
  *
  * Example:
@@ -2780,7 +2786,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
 
       // if nothing registered, then something went wrong
       if (!load.metadata.entry)
-        reject(new Error(load.address + ' did not call System.register or AMD define'));
+        reject(new Error(load.address + ' did not call System.register or AMD define. If loading a global, ensure the meta format is set to global.'));
 
       resolve('');
     });
@@ -2895,7 +2901,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
  *
  *
  * The code here replicates the ES6 linking groups algorithm to ensure that
- * circular ES6 compiled into System.register can work alongside circular AMD 
+ * circular ES6 compiled into System.register can work alongside circular AMD
  * and CommonJS, identically to the actual ES6 loader.
  *
  */
@@ -2905,7 +2911,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
  * Registry side table entries in loader.defined
  * Registry Entry Contains:
  *    - name
- *    - deps 
+ *    - deps
  *    - declare for declarative modules
  *    - execute for dynamic modules, different to declarative execute on module
  *    - executingRequire indicates require drives execution for circularity of dynamic modules
@@ -2923,7 +2929,7 @@ SystemJSLoader.prototype.config = function(cfg, isEnvConfig) {
  *    For dynamic we track the es module with:
  *    - esModule actual es module value
  *    - esmExports whether to extend the esModule with named exports
- *      
+ *
  *    Then for declarative only we track dynamic bindings with the 'module' records:
  *      - name
  *      - exports
@@ -2968,7 +2974,7 @@ function createEntry() {
    *    see https://github.com/ModuleLoader/es6-module-loader/wiki/System.register-Explained
    *
    * 2. System.registerDynamic for dynamic modules (3-4 params) - System.registerDynamic([name, ]deps, executingRequire, execute)
-   * the true or false statement 
+   * the true or false statement
    *
    * this extension implements the linking algorithm for the two variations identical to the spec
    * allowing compiled ES6 circular references to work alongside AMD and CJS circular references.
@@ -2987,7 +2993,7 @@ function createEntry() {
       return this.registerDynamic.apply(this, arguments);
 
     var entry = createEntry();
-    // ideally wouldn't apply map config to bundle names but 
+    // ideally wouldn't apply map config to bundle names but
     // dependencies go through map regardless so we can't restrict
     // could reconsider in shift to new spec
     entry.name = name && (this.decanonicalize || this.normalize).call(this, name);
@@ -3073,17 +3079,17 @@ function createEntry() {
     for (var i = 0, l = entry.normalizedDeps.length; i < l; i++) {
       var depName = entry.normalizedDeps[i];
       var depEntry = loader.defined[depName];
-      
+
       // not in the registry means already linked / ES6
       if (!depEntry || depEntry.evaluated)
         continue;
-      
+
       // now we know the entry is in our unlinked linkage group
       var depGroupIndex = entry.groupIndex + (depEntry.declarative != entry.declarative);
 
       // the group index of an entry is always the maximum
       if (depEntry.groupIndex === null || depEntry.groupIndex < depGroupIndex) {
-        
+
         // if already in a group, remove from the old group
         if (depEntry.groupIndex !== null) {
           groups[depEntry.groupIndex].splice(indexOf.call(groups[depEntry.groupIndex], depEntry), 1);
@@ -3123,7 +3129,7 @@ function createEntry() {
         else
           linkDynamicModule(entry, loader);
       }
-      curGroupDeclarative = !curGroupDeclarative; 
+      curGroupDeclarative = !curGroupDeclarative;
     }
   }
 
@@ -3168,14 +3174,22 @@ function createEntry() {
         var importerModule = module.importers[i];
         if (!importerModule.locked) {
           var importerIndex = indexOf.call(importerModule.dependencies, module);
-          importerModule.setters[importerIndex](exports);
+          var setter = importerModule.setters[importerIndex];
+          if (setter)
+            setter(exports);
         }
       }
 
       module.locked = false;
       return value;
     }, { id: entry.name });
-    
+
+    if (typeof declaration == 'function')
+      declaration = { setters: [], execute: declaration };
+
+    // allowing undefined declaration was a mistake! To be deprecated.
+    declaration = declaration || { setters: [], execute: function() {} };
+
     module.setters = declaration.setters;
     module.execute = declaration.execute;
 
@@ -3218,7 +3232,7 @@ function createEntry() {
       else {
         module.dependencies.push(null);
       }
-      
+
       // run setters for all entries with the matching dependency name
       var originalIndices = entry.originalIndices[i];
       for (var j = 0, len = originalIndices.length; j < len; ++j) {
@@ -3244,7 +3258,7 @@ function createEntry() {
     else {
       if (entry.declarative)
         ensureEvaluated(name, entry, [], loader);
-    
+
       else if (!entry.evaluated)
         linkDynamicModule(entry, loader);
 
@@ -3253,7 +3267,7 @@ function createEntry() {
 
     if ((!entry || entry.declarative) && exports && exports.__useDefault)
       return exports['default'];
-    
+
     return exports;
   }
 
@@ -3291,8 +3305,8 @@ function createEntry() {
 
       throw new Error('Module ' + name + ' not declared as a dependency of ' + entry.name);
     }, exports, module);
-    
-    if (output)
+
+    if (output !== undefined)
       module.exports = output;
 
     // create the esModule object, which allows ES6 named imports of dynamics
@@ -3306,7 +3320,7 @@ function createEntry() {
       entry.esModule = loader.newModule(getESModule(exports));
     // just use the 'default' export
     else
-      entry.esModule = loader.newModule({ 'default': exports });
+      entry.esModule = loader.newModule({ 'default': exports, __useDefault: true });
   }
 
   /*
@@ -3315,7 +3329,7 @@ function createEntry() {
    *  (unless one is a circular dependency already in the list of seen
    *  modules, in which case we execute it)
    *
-   * Then we evaluate the module itself depth-first left to right 
+   * Then we evaluate the module itself depth-first left to right
    * execution to match ES6 modules
    */
   function ensureEvaluated(moduleName, entry, seen, loader) {
@@ -3361,7 +3375,7 @@ function createEntry() {
       }
 
       load.metadata.deps = load.metadata.deps || [];
-      
+
       return fetch.call(this, load);
     };
   });
@@ -3372,7 +3386,7 @@ function createEntry() {
       load.metadata.deps = load.metadata.deps || [];
       return Promise.resolve(translate.apply(this, arguments)).then(function(source) {
         // run detection for register format
-        if (load.metadata.format == 'register' || !load.metadata.format && detectRegisterFormat(load.source))
+        if (load.metadata.format == 'register' || load.metadata.format == 'system' || !load.metadata.format && detectRegisterFormat(load.source))
           load.metadata.format = 'register';
         return source;
       });
@@ -3390,7 +3404,7 @@ function createEntry() {
 
       entry.originalIndices = entry.normalizedDeps = [];
 
-      // recursively ensure that the module and all its 
+      // recursively ensure that the module and all its
       // dependencies are linked (with dependency group handling)
       link(normalized, entry, loader);
 
@@ -3441,9 +3455,9 @@ function createEntry() {
 
       // Contains System.register calls
       // (dont run bundles in the builder)
-      else if (!(loader.builder && load.metadata.bundle) 
+      else if (!(loader.builder && load.metadata.bundle)
           && (load.metadata.format == 'register' || load.metadata.format == 'esm' || load.metadata.format == 'es6')) {
-        
+
         if (typeof __exec != 'undefined')
           __exec.call(loader, load);
 
@@ -3466,9 +3480,9 @@ function createEntry() {
 
       // place this module onto defined for circular references
       loader.defined[load.name] = entry;
-      
+
       var grouped = group(entry.deps);
-      
+
       entry.deps = grouped.names;
       entry.originalIndices = grouped.indices;
       entry.name = load.name;
@@ -3486,7 +3500,7 @@ function createEntry() {
         return {
           deps: entry.deps,
           execute: function() {
-            // recursively ensure that the module and all its 
+            // recursively ensure that the module and all its
             // dependencies are linked (with dependency group handling)
             link(load.name, entry, loader);
 
@@ -3554,9 +3568,27 @@ function createEntry() {
           // do transpilation
           return (loader._loader.transpilerPromise || (
             loader._loader.transpilerPromise = Promise.resolve(
-              __global[loader.transpiler == 'typescript' ? 'ts' : loader.transpiler] || (loader.pluginLoader || loader)['import'](loader.transpiler)
+              __global[loader.transpiler == 'typescript' ? 'ts' : loader.transpiler] || (loader.pluginLoader || loader).normalize(loader.transpiler)
+              .then(function(normalized) {
+                loader._loader.transpilerNormalized = normalized;
+                return (loader.pluginLoader || loader).load(normalized)
+                .then(function() {
+                  return (loader.pluginLoader || loader).get(normalized);
+                });
+              })
           ))).then(function(transpiler) {
             loader._loader.loadedTranspilerRuntime = true;
+
+            if (typeof transpiler.default === 'function' && !__global[loader.transpiler == 'typescript' ? 'ts' : loader.transpiler]) {
+              // instantiate plugins dont build
+              if (loader.builder)
+                return source;
+              return Promise.resolve(transpiler.default.call(loader, load.address, load.name))
+              .then(function (result) {
+                createInstantiate(load, result);
+                return '';
+              });
+            }
 
             // translate hooks means this is a transpiler plugin instead of a raw implementation
             if (transpiler.translate) {
@@ -3574,7 +3606,7 @@ function createEntry() {
                 var sourceMap = load.metadata.sourceMap;
                 if (sourceMap && typeof sourceMap == 'object') {
                   var originalName = load.address.split('!')[0];
-                  
+
                   // force set the filename of the original file
                   if (!sourceMap.file || sourceMap.file == load.address)
                     sourceMap.file = originalName + '!transpiled';
@@ -3593,14 +3625,16 @@ function createEntry() {
             // legacy builder support
             if (loader.builder)
               load.metadata.originalSource = load.source;
-            
+
             // defined in es6-module-loader/src/transpile.js
             return transpile.call(loader, load)
             .then(function(source) {
               // clear sourceMap as transpiler embeds it
               load.metadata.sourceMap = undefined;
               return source;
-            });            
+            });
+          }, function(err) {
+            throw addToError(err, 'Unable to load transpiler to transpile ' + load.name);
           });
         }
 
@@ -3752,7 +3786,7 @@ function getGlobalValue(exports) {
 
 hook('reduceRegister_', function(reduceRegister) {
   return function(load, register) {
-    if (register || !load.metadata.exports)
+    if (register || (!load.metadata.exports && !(isWorker && load.metadata.format == 'global')))
       return reduceRegister.call(this, load, register);
 
     load.metadata.format = 'global';
@@ -4282,7 +4316,7 @@ hookConstructor(function(constructor) {
           if (curMeta) {
             if (!curMeta.entry && !curMeta.bundle)
               curMeta.entry = entry;
-            else if (curMeta.entry && curMeta.entry.name)
+            else if (curMeta.entry && curMeta.entry.name && curMeta.entry.name != load.name)
               curMeta.entry = undefined;
 
             // note this is now a bundle
@@ -4409,13 +4443,13 @@ hookConstructor(function(constructor) {
   // if so, remove for backwards compat
   // this is strange and sucks, but will be deprecated
   function checkDefaultExtension(loader, arg) {
-    return loader.defaultJSExtensions && arg.substr(arg.length - 3, 3) != '.js'; 
+    return loader.defaultJSExtensions && arg.substr(arg.length - 3, 3) != '.js';
   }
 
   function createNormalizeSync(normalizeSync) {
     return function(name, parentName, isPlugin) {
       var loader = this;
-      
+
       var parsed = parsePlugin(loader, name);
       parentName = getParentName(this, parentName);
 
@@ -4428,7 +4462,7 @@ hookConstructor(function(constructor) {
       return combinePluginParts(loader, argumentName, pluginName, checkDefaultExtension(loader, parsed.argument));
     };
   }
-  
+
   hook('decanonicalize', createNormalizeSync);
   hook('normalizeSync', createNormalizeSync);
 
@@ -4522,15 +4556,16 @@ hookConstructor(function(constructor) {
   hook('fetch', function(fetch) {
     return function(load) {
       var loader = this;
-      if (load.metadata.loaderModule && load.metadata.loaderModule.fetch && load.metadata.format != 'defined') {
+      if (load.metadata.loaderModule && load.metadata.format != 'defined') {
+        if (typeof load.metadata.loaderModule === 'function' || load.metadata.loaderModule instanceof Module && typeof load.metadata.loaderModule.default === 'function')
+          return '';
         load.metadata.scriptLoad = false;
-        return load.metadata.loaderModule.fetch.call(loader, load, function(load) {
-          return fetch.call(loader, load);
-        });
+        if (load.metadata.loaderModule.fetch)
+          return load.metadata.loaderModule.fetch.call(loader, load, function(load) {
+            return fetch.call(loader, load);
+          });
       }
-      else {
-        return fetch.call(loader, load);
-      }
+      return fetch.call(loader, load);
     };
   });
 
@@ -4548,7 +4583,7 @@ hookConstructor(function(constructor) {
               throw new Error('load.metadata.sourceMap must be set to an object.');
 
             var originalName = load.address.split('!')[0];
-            
+
             // force set the filename of the original file
             if (!sourceMap.file || sourceMap.file == load.address)
               sourceMap.file = originalName + '!transpiled';
@@ -4563,15 +4598,11 @@ hookConstructor(function(constructor) {
 
           if (typeof result == 'string')
             load.source = result;
-          else
-            warn.call(this, 'Plugin ' + load.metadata.loader + ' should return the source in translate, instead of setting load.source directly. This support will be deprecated.');
 
           return translate.apply(loader, args);
         });
       }
-      else {
-        return translate.apply(loader, args);
-      }
+      return translate.apply(loader, args);
     };
   });
 
@@ -4580,30 +4611,35 @@ hookConstructor(function(constructor) {
       var loader = this;
       var calledInstantiate = false;
 
-      if (load.metadata.loaderModule && load.metadata.loaderModule.instantiate && !loader.builder && load.metadata.format != 'defined')
-        return Promise.resolve(load.metadata.loaderModule.instantiate.call(loader, load, function(load) {
-          if (calledInstantiate)
-            throw new Error('Instantiate must only be called once.');
-          calledInstantiate = true;
-          return instantiate.call(loader, load);
-        })).then(function(result) {
-          if (calledInstantiate)
-            return result;
+      if (load.metadata.loaderModule && !loader.builder && load.metadata.format != 'defined') {
+        if (load.metadata.loaderModule.instantiate)
+          return Promise.resolve(load.metadata.loaderModule.instantiate.call(loader, load, function(load) {
+            if (calledInstantiate)
+              throw new Error('Instantiate must only be called once.');
+            calledInstantiate = true;
+            return instantiate.call(loader, load);
+          })).then(function(result) {
+            if (calledInstantiate)
+              return result;
 
-          load.metadata.entry = createEntry();
-          load.metadata.entry.execute = function() {
-            return result;
-          }
-          load.metadata.entry.deps = load.metadata.deps;
-          load.metadata.format = 'defined';
-          return instantiate.call(loader, load);
-        });
-      else
-        return instantiate.call(loader, load);
+            if (result !== undefined)
+              createInstantiate(load, result);
+            return instantiate.call(loader, load);
+          });
+        else if (typeof load.metadata.loaderModule === 'function' || load.metadata.loaderModule instanceof Module && typeof load.metadata.loaderModule.default === 'function')
+          return Promise.resolve((load.metadata.loaderModule.default || load.metadata.loaderModule).call(loader, load.address, load.name))
+          .then(function (result) {
+            if (result !== undefined)
+              createInstantiate(load, result);
+            return instantiate.call(loader, load);
+          });
+      }
+      return instantiate.call(loader, load);
     };
   });
 
-})();/*
+})();
+/*
  * Conditions Extension
  *
  *   Allows a condition module to alter the resolution of an import via syntax:
@@ -5076,7 +5112,7 @@ hookConstructor(function(constructor) {
 System = new SystemJSLoader();
 
 __global.SystemJS = System;
-System.version = '0.19.31 Standard';
+System.version = '0.19.46 Standard';
   if (typeof module == 'object' && module.exports && typeof exports == 'object')
     module.exports = System;
 
@@ -5091,6 +5127,10 @@ var doPolyfill = typeof Promise === 'undefined';
 if (typeof document !== 'undefined') {
   var scripts = document.getElementsByTagName('script');
   $__curScript = scripts[scripts.length - 1];
+  if (document.currentScript && ($__curScript.defer || $__curScript.async))
+    $__curScript = document.currentScript;
+  if (!$__curScript.src)
+    $__curScript = undefined;
   if (doPolyfill) {
     var curPath = $__curScript.src;
     var basePath = curPath.substr(0, curPath.lastIndexOf('/') + 1);
